@@ -25,19 +25,31 @@ class Player(GameSprite):
     def update(self):
         keys = pygame.key.get_pressed()
         
-        if keys[pygame.K_w]:
+        if keys[pygame.K_d]:
             
-            self.rect.y -= 5
+            self.rect.x += 5
 
 
-test_object = GameSprite("test_image.png", (100,100), (100,100))
+test_object = Player("test_image.png", (100,100), (100,100))
+
+test_object2 = GameSprite("test_image.png", (100,100), (300,100))
 
 game_over = False
+finish  = False
+
 while not game_over:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_over = True
-    window.blit(background, (0,0))
-    test_object.reset()
-    pygame.display.update()
-    clock.tick(FPS)
+    if not finish:
+        window.blit(background, (0,0))
+        test_object.update()
+        test_object.reset()
+        test_object2.update()
+        test_object2.reset()
+
+        if test_object.rect.colliderect(test_object2.rect):
+            finish = True
+
+        pygame.display.update()
+        clock.tick(FPS)
